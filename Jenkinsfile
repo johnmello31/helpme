@@ -29,7 +29,8 @@ pipeline {
                     git config user.name "John Mello"
                     git add Dockerfile.txt
                     git commit -m "Add Dockerfile.txt"
-                    git push origin main
+                    git branch -M main
+                    git push -f origin main
                 '''
             }
         }
@@ -42,3 +43,4 @@ pipeline {
         }
     }
 }
+
