@@ -5,7 +5,12 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the main branch
-                git branch: 'main', url: 'https://your-repository-url.git'
+                checkout([$class: 'GitSCM', 
+                          branches: [[name: '*/main']], 
+                          doGenerateSubmoduleConfigurations: false, 
+                          extensions: [], 
+                          userRemoteConfigs: [[url: 'https://github.com/johnmello31/helpme']]
+                ])
             }
         }
         
