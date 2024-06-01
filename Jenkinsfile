@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_CREDENTIALS_ID = '66231a9a-f38e-4db5-b53c-8febd33dce8f	' // Replace with the actual ID of your credentials
+        GIT_CREDENTIALS_ID = 'github-key' // Replace with the actual ID of your credentials
     }
 
     stages {
@@ -29,17 +29,15 @@ pipeline {
         stage('Commit and Push Dockerfile.txt') {
             steps {
                 // Commit and push Dockerfile.txt to the repository
-                withCredentials([usernamePassword(credentialsId: env.GIT_CREDENTIALS_ID, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                withCredentials([string(credentialsId: env.GIT_CREDENTIALS_ID, variable: 'GITHUB_TOKEN')]) {
                     sh '''
                         git config user.email "johnmello31@gmail.com"
                         git config user.name "John Mello"
                         git checkout main
                         git add Dockerfile.txt
                         git commit -m "Add Dockerfile.txt"
-                        echo "echo $GIT_PASSWORD" > pass.sh
-                        chmod +x pass.sh
-                        GIT_ASKPASS=./pass.sh git push -f https://$GIT_USERNAME@github.com/johnmello31/helpme.git main
-                        rm pass.sh
+                        git remote set-url origin https://$GITHUB_TOKEN@github.com/johnmello31/helpme.git
+                        git push -f origin main
                     '''
                 }
             }
