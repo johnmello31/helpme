@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_CREDENTIALS_ID = 'github-key' // Replace with the actual ID of your credentials
-        GIT_USERNAME = 'johnmello31'
+        GIT_CREDENTIALS_ID = '66231a9a-f38e-4db5-b53c-8febd33dce8f' // Replace with the actual ID of your credentials
     }
 
     stages {
