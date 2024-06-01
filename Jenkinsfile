@@ -6,10 +6,10 @@ pipeline {
             steps {
                 // Checkout the code from the main branch
                 checkout([$class: 'GitSCM', 
-                          branches: [[name: '*/main']], 
+                          branches: [[name: 'refs/heads/main']], 
                           doGenerateSubmoduleConfigurations: false, 
                           extensions: [], 
-                          userRemoteConfigs: [[url: 'https://github.com/johnmello31/helpme']]
+                          userRemoteConfigs: [[url: 'https://github.com/johnmello31/helpme.git']]
                 ])
             }
         }
