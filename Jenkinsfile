@@ -27,9 +27,9 @@ pipeline {
                 sh '''
                     git config user.email "johnmello31@gmail.com"
                     git config user.name "John Mello"
+                    git checkout main
                     git add Dockerfile.txt
                     git commit -m "Add Dockerfile.txt"
-                    git branch -M main
                     git push -f origin main
                 '''
             }
