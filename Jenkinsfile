@@ -5,16 +5,14 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the main branch
-                git branch: 'main', url: 'https://github.com/johnmello31/helpme.git'
+                git branch: 'main', url: 'https://your-repository-url.git'
             }
         }
         
-        stage('Build Docker Image') {
+        stage('Output Dockerfile') {
             steps {
-                // Build the Docker image
-                script {
-                    def image = docker.build("your-image-name")
-                }
+                // Output the contents of the Dockerfile
+                sh 'cat Dockerfile'
             }
         }
     }
