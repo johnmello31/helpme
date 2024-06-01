@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        GIT_CREDENTIALS_ID = 'github-key' // Replace with the actual ID of your credentials
+        GIT_USERNAME = 'johnmello31'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -9,7 +14,8 @@ pipeline {
                           branches: [[name: 'main']], 
                           doGenerateSubmoduleConfigurations: false, 
                           extensions: [], 
-                          userRemoteConfigs: [[url: 'https://github.com/johnmello31/helpme.git']]
+                          userRemoteConfigs: [[url: 'https://github.com/johnmello31/helpme.git',
+                                               credentialsId: env.GIT_CREDENTIALS_ID]]
                 ])
             }
         }
@@ -24,14 +30,16 @@ pipeline {
         stage('Commit and Push Dockerfile.txt') {
             steps {
                 // Commit and push Dockerfile.txt to the repository
-                sh '''
-                    git config user.email "johnmello31@gmail.com"
-                    git config user.name "John Mello"
-                    git checkout main
-                    git add Dockerfile.txt
-                    git commit -m "Add Dockerfile.txt"
-                    git push -f origin main
-                '''
+                withCredentials([usernamePassword(credentialsId: env.GIT_CREDENTIALS_ID, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    sh '''
+                        git config user.email "johnmello31@gmail.com"
+                        git config user.name "John Mello"
+                        git checkout main
+                        git add Dockerfile.txt
+                        git commit -m "Add Dockerfile.txt"
+                        git push -f https://$GIT_USERNAME:$GIT_PASSWORD@github.com/johnmello31/helpme.git main
+                    '''
+                }
             }
         }
     }
@@ -43,4 +51,3 @@ pipeline {
         }
     }
 }
-
