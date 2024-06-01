@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_CREDENTIALS_ID = '66231a9a-f38e-4db5-b53c-8febd33dce8f' // Replace with the actual ID of your credentials
+        GIT_CREDENTIALS_ID = '66231a9a-f38e-4db5-b53c-8febd33dce8f	' // Replace with the actual ID of your credentials
     }
 
     stages {
@@ -36,7 +36,10 @@ pipeline {
                         git checkout main
                         git add Dockerfile.txt
                         git commit -m "Add Dockerfile.txt"
-                        git push -f https://$GIT_USERNAME:$GIT_PASSWORD@github.com/johnmello31/helpme.git main
+                        echo "echo $GIT_PASSWORD" > pass.sh
+                        chmod +x pass.sh
+                        GIT_ASKPASS=./pass.sh git push -f https://$GIT_USERNAME@github.com/johnmello31/helpme.git main
+                        rm pass.sh
                     '''
                 }
             }
